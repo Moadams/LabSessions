@@ -69,9 +69,9 @@ public class StatisticsOfGrade{
                 if(score >= 0 && score <= 100){
                     return score;
                 }
-                System.out.println(scoreString + " is not a valid input. Please input a valid integer value from 0 to 100");
+                System.out.println(scoreString + " is not a valid input. Please input a valid number from 0 to 100");
             }catch(NumberFormatException e){
-                System.out.println(scoreString + " is not a valid input. Please input a valid integer value from 0 to 100");
+                System.out.println(scoreString + " is not a valid input. Please input a valid number from 0 to 100");
             }
             scoreString = sc.next(); // get the input again
         }
