@@ -31,7 +31,7 @@ public class AddEmployeeDialog {
 
         TextField name = new TextField();
         ComboBox<String> department = new ComboBox<>();
-        department.getItems().addAll("IT", "HR", "Finance");
+        department.getItems().addAll("IT", "HR", "Finance","Wed");
         TextField salary = new TextField();
         TextField rating = new TextField();
         TextField experience = new TextField();

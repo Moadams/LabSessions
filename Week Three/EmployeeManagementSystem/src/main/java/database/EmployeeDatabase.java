@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import main.java.exception.EmployeeNotFoundException;
 import main.java.model.Employee;
 
 
@@ -57,6 +59,15 @@ public class EmployeeDatabase<T>{
     // Get employees
     public List<Employee<T>> getAllEmployees(){
         return employeeMap.values().stream().collect(Collectors.toList());
+    }
+
+    // Get employee by ID
+    public Employee<T> getEmployeeById(T employeeId) throws EmployeeNotFoundException {
+        Employee<T> employee = employeeMap.get(employeeId);
+        if(employee == null){
+            throw new EmployeeNotFoundException("Employee with ID " + employeeId + " not found.");
+        }
+        return employee;
     }
 
     // Filters employees by department name and collects them into a list

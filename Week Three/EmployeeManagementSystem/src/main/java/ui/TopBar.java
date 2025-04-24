@@ -21,7 +21,6 @@ public class TopBar {
         HBox topBar = createTopBarLayout(); 
 
         topBar.getChildren().addAll(
-            new Label("👔 Employee Management System"),
             createAddButton(),
             createRemoveButton(),
             createRaiseButton(),
@@ -29,7 +28,8 @@ public class TopBar {
             createHighPaidEmployeesButton(),
             createTotalSalaryButton(),
             createAverageSalaryButton(),
-            createAverageDepartmentSalaryButton()
+            createAverageDepartmentSalaryButton(),
+            createEmployeeByIdButton()
         );
         return topBar;
     }
@@ -45,6 +45,13 @@ public class TopBar {
         topBar.setAlignment(Pos.CENTER_LEFT);
         return topBar;
     }
+
+    private Button createEmployeeByIdButton() {
+        Button getEmployeeButton = new Button("Get employee by id");
+        getEmployeeButton.setOnAction(e->employeeController.displayEmployeeById());
+        return getEmployeeButton;
+    }
+
 
     /**
      * Create a button that displays a dialog to add a new employee to the database

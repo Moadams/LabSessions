@@ -79,7 +79,7 @@ public class SideBar {
         Button sortByRating = new Button("Sort by rating");
         sortByRating.setOnAction(e-> employeeController.compareByRating());
 
-
+        
         sidebar.getChildren().addAll(
             new Label("Search by name:"), nameField,
             new Label("Department: "), departmentBox,

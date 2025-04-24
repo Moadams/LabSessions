@@ -13,6 +13,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import main.java.database.EmployeeDatabase;
+import main.java.exception.EmployeeNotFoundException;
+import main.java.exception.InvalidDepartmentException;
+import main.java.exception.InvalidSalaryException;
 import main.java.model.Employee;
 import main.java.ui.AlertUi;
 import main.java.ui.EmployeeTable;
@@ -30,9 +33,17 @@ public class EmployeeController {
     }
 
     public void createEmployee(Integer employeeId, String name, String department, double salary, double rating, int experience, boolean isActive) {
-        Employee<Integer> createdEmployee = new Employee<>(employeeId, name, department, salary, rating, experience, isActive);
-        employeeDatabase.addEmployee(createdEmployee);
-        employeeTable.updateTable();
+        try{
+            Employee<Integer> createdEmployee = new Employee<>(employeeId, name, department, salary, rating, experience, isActive);
+            employeeDatabase.addEmployee(createdEmployee);
+            employeeTable.updateTable();
+        }catch(IllegalArgumentException e){
+            alertUi.displayError(e.getMessage());
+        }catch(InvalidSalaryException e){
+            alertUi.displayError(e.getMessage());
+        }catch(InvalidDepartmentException e){
+            alertUi.displayError(e.getMessage());
+        }
     }
 
     public void removeSelectedEmployee(){
@@ -129,4 +140,48 @@ public class EmployeeController {
         employeeTable.setTableData(sortedEmployeesByExperience);
     }
 
+    public void displayEmployeeById(){
+        Dialog<Employee<Integer>> dialog = new Dialog<>();
+        dialog.setTitle("Employee Details");
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20));
+
+        TextField employeeIdField = new TextField();
+
+        grid.addRow(0, new Label("Enter Employee ID:"));
+        grid.addRow(1, employeeIdField);
+
+        ButtonType okButtonType = ButtonType.OK;
+        dialog.getDialogPane().setContent(grid);
+        dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
+
+        Node okButton = dialog.getDialogPane().lookupButton(okButtonType);
+        okButton.disableProperty().bind(employeeIdField.textProperty().isEmpty());
+
+        dialog.setResultConverter(btn -> {
+            if (btn == okButtonType) {
+                int employeeId = Integer.parseInt(employeeIdField.getText());
+                try{
+                    Employee<Integer> employee = employeeDatabase.getEmployeeById(employeeId);
+                    alertUi.displayInfo(
+                        "Name: " + employee.getName() + "\n" +
+                        "Department: " + employee.getDepartment() + "\n" +
+                        "Salary: " + employee.getSalary() + "\n" +
+                        "Performance Rating: " + employee.getPerformanceRating() + "\n" +
+                        "Experience: " + employee.getYearsOfExperience()
+                        );
+                }catch(EmployeeNotFoundException e){
+                    alertUi.displayError(e.getMessage());
+                }
+                
+                return null;
+            }
+            return null;
+        });
+
+        dialog.showAndWait();
+    }
 }
