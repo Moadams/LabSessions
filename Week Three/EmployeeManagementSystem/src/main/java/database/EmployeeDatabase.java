@@ -1,5 +1,6 @@
 package main.java.database;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -119,6 +120,18 @@ public class EmployeeDatabase<T>{
     // Calculate average salary in a department
     public double calculateAverageSalaryInDepartment(String departmentName){
         return employeeMap.values().stream().filter(e->e.getDepartment().equalsIgnoreCase(departmentName)).mapToDouble(Employee::getSalary).average().orElse(0.0);
+    }
+
+    // Get employees sorted by salary
+    public List<Employee<T>> sortEmployeesBySalary() {
+        if (employeeMap.isEmpty()) {
+            System.out.println("No employees to sort.");
+            return new ArrayList<>();
+        }
+
+        return employeeMap.values().stream()
+                .sorted(Comparator.comparing(Employee<T>::getSalary, Comparator.nullsLast(Double::compare)))
+                .collect(Collectors.toList());
     }
 
     // Sort employees by a custom field

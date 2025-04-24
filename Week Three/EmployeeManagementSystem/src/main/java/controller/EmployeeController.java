@@ -184,4 +184,8 @@ public class EmployeeController {
 
         dialog.showAndWait();
     }
+
+    public void calculateSalary(Employee employee){  
+        alertUi.displayInfo("Total Salary: " + employee.calculateSalary(employee));
+     }
 }

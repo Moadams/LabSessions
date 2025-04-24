@@ -29,7 +29,8 @@ public class TopBar {
             createTotalSalaryButton(),
             createAverageSalaryButton(),
             createAverageDepartmentSalaryButton(),
-            createEmployeeByIdButton()
+            createEmployeeByIdButton(),
+            createCalculateSalaryButton()
         );
         return topBar;
     }
@@ -99,6 +100,20 @@ public class TopBar {
             }
         });
         return updateButton;
+    }
+
+    private Button createCalculateSalaryButton(){
+        Button calculateSalaryButton = new Button("Calculate Salary");
+        calculateSalaryButton.setOnAction(e->{
+            Employee<Integer> selectedEmployee = EmployeeTable.employeeTable.getSelectionModel().getSelectedItem();
+            if(selectedEmployee != null){
+                employeeController.calculateSalary(selectedEmployee);
+            }else{
+                AlertUi.displayError("Please select an employee from the table");
+            }
+            
+        });
+        return calculateSalaryButton;
     }
 
     /**

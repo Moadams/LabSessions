@@ -92,6 +92,11 @@ public class Employee<T> implements Comparable<Employee<T>>{
         this.yearsOfExperience = yearsOfExperience; 
     }
     
+    public double calculateSalary(Employee<T> employee){
+        double bonus = employee.getYearsOfExperience() * 1000;
+        return employee.getSalary() + bonus;
+    }
+
     public void setActive(boolean active) { isActive = active; }
 
     /**
